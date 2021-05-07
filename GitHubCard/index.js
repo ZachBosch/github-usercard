@@ -1,16 +1,26 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+const result = axios.get('https://api.github.com/users/ZachBosch')
+console.log('this shiz', result)
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
-
+*/
+// axios.get()
+//   .then()
+//   .catch()
+//   .finally()
+/*
     Skip to STEP 3.
 */
+
+
 
 /*
   STEP 4: Pass the data received from Github into your function,
@@ -28,26 +38,101 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell',
+  'ZachBosch',
+  'Bobby-Tav',
+  'Williamlarose'
+];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
 
-    <div class="card">
-      <img src={image url of user} />
-      <div class="card-info">
-        <h3 class="name">{users name}</h3>
-        <p class="username">{users user name}</p>
-        <p>Location: {users location}</p>
-        <p>Profile:
-          <a href={address to users github page}>{address to users github page}</a>
-        </p>
-        <p>Followers: {users followers count}</p>
-        <p>Following: {users following count}</p>
-        <p>Bio: {users bio}</p>
-      </div>
-    </div>
+    */
+
+const entryPoint = document.querySelector('.cards')
+
+function cardMaker(object) {
+  const card = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const name = document.createElement('h3')
+  const usrName = document.createElement('p')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const link = document.createElement('a')
+  const followers = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+
+  //classLists
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  usrName.classList.add('username')
+
+  //URLs
+  link.href = object.html_url
+  image.src = object.avatar_url
+
+  //Text Content
+  name.textContent = object.name
+  usrName.textContent = 'Username: ' + object.login
+  location.textContent = 'Location: ' + object.location
+  profile.textContent = 'Profile: '
+  link.textContent = object.html_url
+  followers.textContent = 'Followers: ' + object.followers
+  following.textContent = 'Following: ' + object.following
+  bio.textContent = 'Bio: ' + object.bio
+
+  card.appendChild(image);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(usrName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+  profile.appendChild(link);
+
+  return card
+}
+console.log(cardMaker)
+followersArray.forEach(items => {
+  axios.get(`https://api.github.com/users/${items}`)
+    .then(res => {
+      const info = res.data;
+      const cardMake = cardMaker(info);
+      entryPoint.appendChild(cardMake);
+    })
+    .catch(err => {
+      console.log('ERROR', err);
+    })
+    .finally(() => console.log('IT IS FINISHED')
+    )
+});
+
+/*
+<div class="card">
+<img src={image url of user} />
+<div class="card-info">
+<h3 class="name">{users name}</h3>
+<p class="username">{users user name}</p>
+<p>Location: {users location}</p>
+<p>Profile:
+<a href={address to users github page}>{address to users github page}</a>
+</p>
+<p>Followers: {users followers count}</p>
+<p>Following: {users following count}</p>
+<p>Bio: {users bio}</p>
+</div>
+</div>
 */
 
 /*
