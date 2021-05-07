@@ -38,7 +38,16 @@ console.log('this shiz', result)
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell',
+  'ZachBosch',
+  'Bobby-Tav',
+  'Williamlarose'
+];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -95,16 +104,19 @@ function cardMaker(object) {
   return card
 }
 console.log(cardMaker)
-axios.get('https://api.github.com/users/ZachBosch')
-  .then(res => {
-    const info = res.data;
-    const cardMake = cardMaker(info);
-    entryPoint.appendChild(cardMake);
-  })
-  .catch(err => {
-    console.log('ERROR', err);
-  })
-  .finally(() => console.log('IT IS FINISHED'))
+followersArray.forEach(items => {
+  axios.get(`https://api.github.com/users/${items}`)
+    .then(res => {
+      const info = res.data;
+      const cardMake = cardMaker(info);
+      entryPoint.appendChild(cardMake);
+    })
+    .catch(err => {
+      console.log('ERROR', err);
+    })
+    .finally(() => console.log('IT IS FINISHED')
+    )
+});
 
 /*
 <div class="card">
