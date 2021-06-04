@@ -25,6 +25,12 @@ axios.get('https://api.github.com/users/ZachBosch')
     entryPoint.appendChild(cardMaker(res.data))
     console.log(res.data)
 })
+.catch(err => {
+  console.log(err)
+})
+.finally(() => {
+  console.log('done')
+})
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -37,7 +43,30 @@ axios.get('https://api.github.com/users/ZachBosch')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+    'Bobby-Tav',
+    'Williamlarose'  ,
+    'tetondan',
+    'dustinmyers',
+    'justsml',
+    'luishrd',
+    'bigknell',
+];
+
+
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+  .then(res => {
+    entryPoint.appendChild(cardMaker(res.data))
+  })
+.catch(err => {
+  console.log(err)
+})
+.finally(() => {
+  console.log('done')
+})
+})
+  
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -85,7 +114,6 @@ const followersArray = [];
      profile.appendChild(addy)
 
      return card
-
    }
    
     /*
@@ -108,6 +136,8 @@ const followersArray = [];
 
 /*
   List of LS Instructors Github username's:
+    Bobby-Tav
+    Williamlarose  
     tetondan
     dustinmyers
     justsml
